@@ -81,34 +81,33 @@ Or use natural language:
 
 ### Example Output
 
-```markdown
-# Deep Verify Report
-
-## Overall Verdict
-🔴 **BLOCK** — 3 CRITICAL issues found. Do NOT merge until resolved.
-
-### [CRITICAL] Missing Transaction Boundary in Payment Processing
-- **Location:** `src/payments/processor.ts:142-158`
-- **Pattern:** Pattern 1.1 (Missing Transaction Boundaries)
-- **Failure Scenario:** If the network fails after `createPayment()` succeeds but before
-  `saveToDatabase()` completes, the payment is charged but not recorded. This would
-  require manual reconciliation of every affected transaction.
-- **Fix:** Wrap all operations in a database transaction with proper rollback.
-
-### [CRITICAL] SQL Injection in Search Endpoint
-- **Location:** `src/api/search.ts:47`
-- **Pattern:** Pattern 3.1 (SQL Injection via String Interpolation)
-- **Failure Scenario:** An attacker can extract the entire user table by sending
-  `'; SELECT * FROM users; --` as the search query.
-- **Fix:** Use parameterized queries instead of string interpolation.
-
-## Severity Summary
-| CRITICAL | 3 |
-| HIGH     | 2 |
-| MEDIUM   | 4 |
-| LOW      | 1 |
-| **TOTAL**| **10** |
-```
+> # Deep Verify Report
+>
+> ## Overall Verdict
+> 🔴 **BLOCK** — 3 CRITICAL issues found. Do NOT merge.
+>
+> ### [CRITICAL] Missing Transaction Boundary
+> - **Location:** `src/payments/processor.ts:142-158`
+> - **Pattern:** Pattern 1.1 (Missing Transaction Boundaries)
+> - **Failure Scenario:** Network fails between charge and save —
+>   customer is charged but order is lost. $12,400 in refunds.
+> - **Fix:** Wrap all operations in a database transaction with rollback.
+>
+> ### [CRITICAL] SQL Injection in Search Endpoint
+> - **Location:** `src/api/search.ts:47`
+> - **Pattern:** Pattern 3.1 (SQL Injection via String Interpolation)
+> - **Failure Scenario:** Attacker extracts entire user table via
+>   `'; SELECT * FROM users; --`
+> - **Fix:** Use parameterized queries instead of string interpolation.
+>
+> ## Severity Summary
+> | Severity | Count |
+> |---|---|
+> | CRITICAL | 3 |
+> | HIGH | 2 |
+> | MEDIUM | 4 |
+> | LOW | 1 |
+> | **TOTAL** | **10** |
 
 ## 🏗️ How It Works
 

@@ -76,40 +76,38 @@ emails, invalid inputs).
 **User**: "Deep verify the payment processing code in my PR"
 
 **Output** (excerpt):
-```markdown
-# Deep Verify Report
 
-## Overall Verdict
-🔴 **BLOCK** — 2 CRITICAL issues found. Do NOT merge.
-
-### [CRITICAL] Missing Transaction Boundary
-- **Location:** `src/payments/processor.ts:142-158`
-- **Pattern:** Pattern 1.1 (Missing Transaction Boundaries)
-- **Description:** Three async database operations execute without a transaction
-  wrapper. Each commits independently.
-- **Failure Scenario:** If the network fails after `createPayment()` succeeds
-  but before `saveToDatabase()`, the customer is charged but the order is
-  lost. This caused $12,400 in refunds at one company.
-- **Fix:**
-```typescript
-const tx = await db.beginTransaction();
-try {
-  const payment = await createPayment(order, tx);
-  await saveToDatabase(payment, tx);
-  await sendConfirmationEmail(order.email);
-  await tx.commit();
-} catch (e) {
-  await tx.rollback();
-  throw e;
-}
-```
-
-## Severity Summary
-| CRITICAL | 2 |
-| HIGH     | 3 |
-| MEDIUM   | 4 |
-| LOW      | 1 |
-```
+> # Deep Verify Report
+>
+> ## Overall Verdict
+> 🔴 **BLOCK** — 2 CRITICAL issues found. Do NOT merge.
+>
+> ### [CRITICAL] Missing Transaction Boundary
+> - **Location:** `src/payments/processor.ts:142-158`
+> - **Pattern:** Pattern 1.1 (Missing Transaction Boundaries)
+> - **Description:** Three async database operations execute without a
+>   transaction wrapper. Each commits independently.
+> - **Failure Scenario:** Network fails after `createPayment()` succeeds
+>   but before `saveToDatabase()` — customer charged, order lost.
+>   This caused $12,400 in refunds at one company.
+> - **Fix:**
+>
+>     const tx = await db.beginTransaction();
+>     try {
+>       const payment = await createPayment(order, tx);
+>       await saveToDatabase(payment, tx);
+>       await sendConfirmationEmail(order.email);
+>       await tx.commit();
+>     } catch (e) {
+>       await tx.rollback();
+>       throw e;
+>     }
+>
+> ## Severity Summary
+> | CRITICAL | 2 |
+> | HIGH     | 3 |
+> | MEDIUM   | 4 |
+> | LOW      | 1 |
 
 ## The Six Dimensions
 
