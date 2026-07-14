@@ -53,7 +53,7 @@ review tools that check style and patterns, deep-verify:
 
 ```bash
 # Clone the repo
-git clone https://github.com/YOUR_USERNAME/deep-verify.git
+git clone https://github.com/Xander-26Code/deep-verify.git
 
 # Install to Claude Code
 cp -r deep-verify ~/.claude/skills/deep-verify
@@ -126,11 +126,12 @@ deep-verify uses a three-layer architecture:
 deep-verify/
 ├── SKILL.md                              # Core skill instructions
 ├── README.md                             # This file
-├── references/
-│   ├── ai-bug-patterns.md               # Catalog of AI-common bug patterns
-│   ├── verification-dimensions.md       # Detailed six-dimension framework
-│   └── report-template.md               # Standardized report output format
-└── CLAUDE.md                            # Project documentation for contributors
+├── CLAUDE.md                            # Contributor guide
+├── LICENSE                               # MIT
+└── references/
+    ├── ai-bug-patterns.md               # Catalog of AI-common bug patterns
+    ├── verification-dimensions.md       # Detailed six-dimension framework
+    └── report-template.md               # Standardized report output format
 ```
 
 ## 🤝 Contributing

@@ -163,6 +163,16 @@ checklists. Read `references/ai-bug-patterns.md` first to calibrate detection in
 - `references/verification-dimensions.md` — Complete six-dimension framework with detailed checklists for each dimension.
 - `references/report-template.md` — Standardized output format with severity definitions and report structure.
 
+## Installation
+
+Copy this folder to your Claude Code skills directory:
+
+```
+cp -r deep-verify ~/.claude/skills/deep-verify
+```
+
+Then restart Claude Code. The skill auto-triggers when you ask to verify, audit, or review code.
+
 ## Credit
 
 **Inspired by:** The collective experience of 49,000+ developers surveyed by Stack Overflow (2025), Ivan Turkovic's analysis in "Almost Solved Is the Most Dangerous Phase in Engineering," the 10x.pub engineering forum's deep-dive on AI code review bottlenecks, and countless 3 AM production incidents caused by "almost right" AI-generated code.
